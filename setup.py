@@ -10,7 +10,7 @@ def version():
 setup(
   name = 'corecluster-auth-db',
   packages = find_packages(exclude=['config', 'config.*']),
-  version = '16.11.01',
+  version = '16.11.02',
   description = 'Default authentication mechanism for CoreCluster',
   author = 'Maciej Nabozny',
   author_email = 'maciej.nabozny@cloudover.io',

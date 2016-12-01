@@ -1,5 +1,5 @@
 MODULE = {
     'algorithms': {
-        'NODE_SELECT': 'corecluster-auth-db.algorithms.db',
+        'AUTH': 'corecluster-auth-db.algorithms.db',
     },
 }
