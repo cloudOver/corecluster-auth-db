@@ -30,30 +30,24 @@ def auth_token(data, function_name):
     if not 'token' in data.keys():
         raise CoreException('missing_token')
 
-    if '-' in data['token']:
-        try:
-            token_id,method,salt,token_hash = data['token'].split('-')
-        except:
-            raise CoreException('token_malformed')
-        try:
-            token = Token.objects.get(id=token_id)
-        except:
-            raise CoreException('token_not_found')
+    try:
+        token_id,method,salt,token_hash = data['token'].split('-')
+    except:
+        raise CoreException('token_malformed')
 
-        if method == 'sha1':
-            if hashlib.sha1(salt + token.token).hexdigest() != token_hash:
-                raise CoreException('auth_failed')
-        elif method == 'md5':
-            if hashlib.md5(salt + token.token) != token_hash:
-                raise CoreException('auth_failed')
-        elif method == 'sha256':
-            if hashlib.sha256(salt + token.token) != token_hash:
-                raise CoreException('auth_failed')
+    try:
+        token = Token.objects.get(id=token_id)
+    except:
+        raise CoreException('token_not_found')
+
+    if method == 'sha256':
+        if hashlib.sha256(salt + token.token) != token_hash:
+            raise CoreException('auth_failed')
+    elif method == 'sha512':
+        if hashlib.sha512(salt + token.token) != token_hash:
+            raise CoreException('auth_failed')
     else:
-        try:
-            token = Token.objects.get(token=data['token'])
-        except:
-            raise Exception('token_not_found')
+        raise CoreException('auth_hash_not_supported')
 
     del data['token']
     if token.valid_to < datetime.datetime.now():
