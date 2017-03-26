@@ -23,6 +23,8 @@ from corenetwork.utils.logger import log
 from django.db.models import Q
 import datetime
 import hashlib
+import time
+import random
 
 def auth_token(data, function_name):
     """ Authenticate by token """
@@ -38,13 +40,16 @@ def auth_token(data, function_name):
     try:
         token = Token.objects.get(id=token_id)
     except:
+        time.sleep(random.random()*5)
         raise CoreException('token_not_found')
 
     if method == 'sha256':
-        if hashlib.sha256(salt + token.token) != token_hash:
+        if hashlib.sha256(salt + token.token).hexdigest() != token_hash:
             raise CoreException('auth_failed')
     elif method == 'sha512':
-        if hashlib.sha512(salt + token.token) != token_hash:
+        log(hashlib.sha512(salt + token.token).hexdigest())
+        log(token_hash)
+        if hashlib.sha512(salt + token.token).hexdigest() != token_hash:
             raise CoreException('auth_failed')
     else:
         raise CoreException('auth_hash_not_supported')
