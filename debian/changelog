@@ -1,3 +1,10 @@
+corecluster-auth-db (17.04.01) stable; urgency=low
+
+  * GNU AGPL v3 License
+
+ -- Maciej Nabozny <maciej.nabozny@cloudover.io> 14 Apr 2017 10:00:00 +0200
+
+
 corecluster-auth-db (17.03.02) stable; urgency=low
 
   * Removed MD5 and SHA1 algorithms as insecure
