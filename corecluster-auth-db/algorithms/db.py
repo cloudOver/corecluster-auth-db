@@ -117,7 +117,7 @@ def auth_node(data, remote_host):
 
     del data['installation_id']
     del data['auth_hash']
-    node.comment = node.comment + 'Authenticated from IP %s\n'
+    node.comment = '%s\nAuthenticated from IP %s\n' % (node.comment, remote_host)
     node.save()
     return node, data
 
