@@ -101,19 +101,24 @@ def auth_password(data, function_name):
 
 
 def auth_node(data, remote_host):
-    """ Authenticate node by its auth_token hash and ip address """
+    """
+    Authenticate node by its auth_hash and installation_id. Auth hash is combination of installation ID and auth
+    seed passed to /ci/node/register/ at first time
+    """
     try:
-        node = Node.objects.get(address=remote_host)
+        node = Node.objects.get(installatoin_id=data['installation_id'])
     except Exception as e:
         raise CoreException('node_not_found')
 
     try:
-        node.check_auth(data['auth_hash'], data['auth_seed'])
+        node.check_auth(data['auth_hash'])
     except Exception as e:
-        raise CoreException('node_not_found')
+        raise CoreException('node_not_authenticated')
 
+    del data['installation_id']
     del data['auth_hash']
-    del data['auth_seed']
+    node.comment = node.comment + 'Authenticated from IP %s\n'
+    node.save()
     return node, data
 
 
