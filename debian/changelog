@@ -1,4 +1,4 @@
-corecluster-auth-db (17.11.02) stable; urgency=low
+corecluster-auth-db (17.11.03) stable; urgency=low
 
   * Nodes are authenticated by installation id instead of address
 

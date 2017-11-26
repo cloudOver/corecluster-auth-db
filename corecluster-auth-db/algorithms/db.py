@@ -106,7 +106,7 @@ def auth_node(data, remote_host):
     seed passed to /ci/node/register/ at first time
     """
     try:
-        node = Node.objects.get(installatoin_id=data['installation_id'])
+        node = Node.objects.get(installation_id=data['installation_id'])
     except Exception as e:
         raise CoreException('node_not_found')
 
